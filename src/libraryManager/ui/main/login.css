@@ -18,7 +18,7 @@
      -fx-cursor:hand;
 }
 .minimize:hover{
-    -fx-background-color:#5481ab;
+    -fx-background-color:#dddddd;
 }
 .textField{
     -fx-background-color:transparent;

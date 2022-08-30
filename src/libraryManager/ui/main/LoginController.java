@@ -18,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.StageStyle;
 
 public class LoginController implements Initializable {
     @FXML
@@ -41,6 +43,8 @@ public class LoginController implements Initializable {
     private Statement statement;
     private ResultSet result;
     
+    private double x = 0;
+    private double y = 0;
     public void login(){
         String sql = "SELECT * FROM student WHERE student_id = ? and password = ?";
         connect = Database.connectDB();
@@ -74,6 +78,16 @@ public class LoginController implements Initializable {
                     Stage stage = new Stage();
                     Scene scene = new Scene(root);
                     
+                    root.setOnMousePressed((MouseEvent event)->{
+                        x = event.getSceneX();
+                        y = event.getSceneY();
+                    });
+                    root.setOnMouseDragged((MouseEvent event)->{
+                        stage.setX(event.getScreenX()-x);
+                        stage.setY(event.getScreenY()-y);
+                    });
+                    
+                    stage.initStyle(StageStyle.TRANSPARENT);
                     stage.setScene(scene);
                     stage.show();
                     
