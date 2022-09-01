@@ -65,6 +65,7 @@ public class LoginController implements Initializable {
             }else{
                 if(result.next()){
                     
+                    GetData.studentId = studentId.getText();
                     alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Admin Message:");
                     alert.setHeaderText(null);
