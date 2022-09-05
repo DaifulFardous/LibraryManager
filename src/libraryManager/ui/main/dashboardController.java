@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
@@ -16,10 +18,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -135,12 +141,118 @@ public class dashboardController implements Initializable {
     private AnchorPane savedBook_from;
     @FXML
     private AnchorPane returnBook_from;
+    @FXML
+    private Label take_author;
+
+    @FXML
+    private TextField take_bookTitle;
+
+    @FXML
+    private Button take_ckearBtn;
+
+    @FXML
+    private Label take_date;
+
+    @FXML
+    private TextField take_firstName;
+
+    @FXML
+    private ComboBox<?> take_gender;
+
+    @FXML
+    private Label take_genre;
+
+    @FXML
+    private ImageView take_imageView;
+
+    @FXML
+    private Label take_issuedDate;
+
+    @FXML
+    private TextField take_lastName;
+
+    @FXML
+    private Label take_studentId;
+
+    @FXML
+    private Button take_takeBtn;
+
+    @FXML
+    private Label take_title;
+    
     
     private Image image;
     private Connection connect;
     private PreparedStatement prepare;
     private Statement statement;
     private ResultSet result;
+    
+    private String comboBox[] = {"Male", "Female", "Others"}; 
+    
+    public void gender(){
+        List<String> combo = new ArrayList();
+       
+        for(String data: comboBox){
+            combo.add(data);
+        }
+         ObservableList list = FXCollections.observableArrayList(combo);
+        take_gender.setItems(list);
+    }
+    
+    public void findBook(ActionEvent event){
+        clearFindData();
+        String sql = "SELECT * FROM book WHERE bookTitle = '"+ take_bookTitle.getText() +"'";
+        
+        connect = Database.connectDB();
+        try{
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            boolean check = false;
+            Alert alert;
+          if(take_bookTitle.getText().isEmpty()){
+              alert = new Alert(AlertType.ERROR);
+              alert.setTitle("Admin Message!!");
+              alert.setHeaderText(null);
+              alert.setContentText("Please select a book");
+              alert.showAndWait();
+              
+          }
+          /*else if(take_firstName.getText().isEmpty() || take_lastName.getText().isEmpty() || take_gender.getSelectionModel().isEmpty()){
+              alert = new Alert(AlertType.ERROR);
+              alert.setTitle("Admin Message!!");
+              alert.setHeaderText(null);
+              alert.setContentText("Please Insert the details");
+              alert.showAndWait();
+          }*/
+          else{
+              while(result.next()){
+                  take_title.setText(result.getString("bookTitle"));
+                  take_author.setText(result.getString("author"));
+                  take_genre.setText(result.getString("bookType"));
+                  take_date.setText(result.getString("date"));
+                  GetData.path = result.getString("image");
+                  String uri = "file:"+GetData.path;
+                  image = new Image(uri, 119,146,false,false,true);
+                  take_imageView.setImage(image);
+                  check = true;
+              }
+              
+              if(!check){
+                  take_title.setText("No book found!!");
+              }
+          }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void clearFindData(){
+         take_title.setText("");
+         take_author.setText("");
+         take_genre.setText("");
+         take_date.setText("");
+         take_imageView.setImage(null);
+    }
     
     public ObservableList<AvailableBooks> dataList(){
         ObservableList<AvailableBooks> listBooks = FXCollections.observableArrayList();
@@ -193,6 +305,17 @@ public class dashboardController implements Initializable {
              availableBooks_form.setVisible(false);
              savedBook_from.setVisible(false);
              returnBook_from.setVisible(false);
+             currentForm_label.setText("Issue Books");
+             
+             issueBooks_btn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #46589a, #4278a7);");
+             availableBooks_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #344275, #3a6389);");
+             returnBooks_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #344275, #3a6389);");
+             savedBooks_btn.setStyle("-fx-background-color:linear-gradient(to bottom right, #344275, #3a6389);");
+             
+             halfNav_takeBtn.setStyle(" -fx-background-color:linear-gradient(to bottom right, #46589a, #4278a7);");
+             halfNav_availbaleBtn.setStyle("-fx-background-color:linear-gradient(to bottom right, #344275, #3a6389);");
+             halfNav_returnBtn.setStyle("-fx-background-color:linear-gradient(to bottom right, #344275, #3a6389);");
+             halfNav_saveBtn.setStyle("-fx-background-color:linear-gradient(to bottom right, #344275, #3a6389);");
          }
      }
      public void studentId(){
@@ -433,6 +556,7 @@ public class dashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
       showAvailableBooks();
       studentId();
+      gender();
     }
     
 }

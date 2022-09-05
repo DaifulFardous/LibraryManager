@@ -4,10 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/dashboard.css</file>
+            <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/AvailableBooks.java</file>
             <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/login.css</file>
+            <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/GetData.java</file>
             <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/dashboardController.java</file>
+            <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/dashboard.fxml</file>
             <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/LoginController.java</file>
-            <file>file:/F:/Learn%20Java/AOOP/LibraryManager/src/libraryManager/ui/main/login.java</file>
         </group>
     </open-files>
 </project-private>
