@@ -217,13 +217,13 @@ public class dashboardController implements Initializable {
               alert.showAndWait();
               
           }
-          /*else if(take_firstName.getText().isEmpty() || take_lastName.getText().isEmpty() || take_gender.getSelectionModel().isEmpty()){
+          else if(take_firstName.getText().isEmpty() || take_lastName.getText().isEmpty() || take_gender.getSelectionModel().isEmpty()){
               alert = new Alert(AlertType.ERROR);
               alert.setTitle("Admin Message!!");
               alert.setHeaderText(null);
               alert.setContentText("Please Insert the details");
               alert.showAndWait();
-          }*/
+          }
           else{
               while(result.next()){
                   take_title.setText(result.getString("bookTitle"));
