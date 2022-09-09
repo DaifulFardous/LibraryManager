@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -174,7 +175,7 @@
                                     <ImageView fx:id="availableBooks_image" fitHeight="171.0" fitWidth="138.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </AnchorPane>
-                              <Button fx:id="save_btn" layoutX="11.0" layoutY="297.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="69.0" styleClass="save-btn" stylesheets="@dashboard.css" text="Save" />
+                              <Button fx:id="save_btn" layoutX="11.0" layoutY="297.0" mnemonicParsing="false" onAction="#saveBooks" prefHeight="42.0" prefWidth="69.0" styleClass="save-btn" stylesheets="@dashboard.css" text="Save" />
                               <Button fx:id="take_btn" layoutX="152.0" layoutY="297.0" mnemonicParsing="false" onAction="#abTakeButton" prefHeight="42.0" prefWidth="69.0" styleClass="take-btn" stylesheets="@dashboard.css" text="Take" />
                               <Label fx:id="availableBooks_title" alignment="CENTER" layoutX="63.0" layoutY="208.0" prefHeight="18.0" prefWidth="153.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="14.800000000000011">
                                  <font>
@@ -303,7 +304,7 @@
                         <Separator layoutX="242.0" layoutY="8.0" orientation="VERTICAL" prefHeight="482.0" prefWidth="11.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="returnBook_from" layoutX="256.0" layoutY="108.0" prefHeight="498.4" prefWidth="743.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="returnBook_from" layoutX="256.0" layoutY="108.0" prefHeight="498.4" prefWidth="743.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <AnchorPane layoutX="269.0" layoutY="7.0" prefHeight="484.0" prefWidth="460.0" styleClass="card-form" stylesheets="@dashboard.css">
                            <children>
@@ -312,10 +313,12 @@
                                     <Font name="Bauhaus 93" size="20.0" />
                                  </font>
                               </Label>
-                              <TableView layoutX="14.0" layoutY="38.0" prefHeight="434.0" prefWidth="432.0" stylesheets="@dashboard.css">
+                              <TableView fx:id="return_tableView" layoutX="14.0" layoutY="38.0" onMouseClicked="#selectReturnBook" prefHeight="434.0" prefWidth="432.0" stylesheets="@dashboard.css">
                                 <columns>
-                                  <TableColumn prefWidth="256.0" text="Book Title" />
-                                    <TableColumn prefWidth="177.5999755859375" text="Date Issued" />
+                                  <TableColumn fx:id="col_return_bookTitle" prefWidth="124.79998779296875" text="Book Title" />
+                                    <TableColumn fx:id="col_return_author" prefWidth="99.20001220703125" text="Author" />
+                                    <TableColumn fx:id="col_return_bookType" prefWidth="105.5999755859375" text="Book Type" />
+                                    <TableColumn fx:id="col_retrun_dateIssued" prefWidth="102.4000244140625" text="Date Issued" />
                                 </columns>
                               </TableView>
                            </children>
@@ -324,15 +327,45 @@
                            <children>
                               <AnchorPane layoutX="52.0" layoutY="33.0" prefHeight="167.0" prefWidth="123.0" styleClass="image-card" stylesheets="@dashboard.css">
                                  <children>
-                                    <ImageView fitHeight="167.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="return_imageView" fitHeight="167.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </AnchorPane>
-                              <Button layoutX="73.0" layoutY="230.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="82.0" styleClass="return-btn" stylesheets="@dashboard.css" text="Return" />
+                              <Button fx:id="return_button" layoutX="73.0" layoutY="230.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="82.0" styleClass="return-btn" stylesheets="@dashboard.css" text="Return" />
                            </children>
                         </AnchorPane>
                         <Separator layoutX="256.0" layoutY="9.0" orientation="VERTICAL" prefHeight="480.0" />
                      </children></AnchorPane>
-                  <AnchorPane fx:id="savedBook_from" prefHeight="498.4" prefWidth="743.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="savedBook_from" prefHeight="498.4" prefWidth="743.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="217.0" prefWidth="722.0" styleClass="card-form" stylesheets="@dashboard.css" AnchorPane.bottomAnchor="267.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="14.0">
+                           <children>
+                              <TableView fx:id="save_tableView" layoutX="191.0" layoutY="9.0" onMouseClicked="#selectSavedBooks" prefHeight="200.0" prefWidth="518.0">
+                                <columns>
+                                  <TableColumn fx:id="col_saveTitle" prefWidth="131.2000274658203" text="Book Title" />
+                                  <TableColumn fx:id="col_saveAuthor" prefWidth="131.2000732421875" text="Author" />
+                                    <TableColumn fx:id="col_saveGenre" prefWidth="125.5999755859375" text="Book Type" />
+                                    <TableColumn fx:id="col_saveDate" prefWidth="131.20001220703125" text="Published date" />
+                                </columns>
+                              </TableView>
+                              <AnchorPane layoutX="36.0" layoutY="14.0" prefHeight="130.0" prefWidth="106.0" styleClass="image-card" stylesheets="@dashboard.css">
+                                 <children>
+                                    <ImageView fx:id="save_imageView" fitHeight="130.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </AnchorPane>
+                              <Button fx:id="unsaveBtn" layoutX="62.0" layoutY="172.0" mnemonicParsing="false" onAction="#unsaveBooks" styleClass="unsave-btn" stylesheets="@dashboard.css" text="Unsave" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="10.0" layoutY="272.0" prefHeight="217.0" prefWidth="722.0" styleClass="card-form" stylesheets="@dashboard.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="272.0">
+                           <children>
+                              <ImageView fitHeight="210.0" fitWidth="666.0" layoutX="220.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/2113-books.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <Separator layoutX="10.0" layoutY="246.0" prefHeight="9.0" prefWidth="727.0" />
+                     </children></AnchorPane>
                </children>
             </AnchorPane>
          </center>
